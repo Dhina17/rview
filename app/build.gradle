@@ -38,13 +38,13 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:${libraries.glide}"
     implementation "com.github.bumptech.glide:okhttp3-integration:${libraries.glide}"
     implementation "org.ocpsoft.prettytime:prettytime:${libraries.prettytime}"
-    implementation "com.google.android:flexbox:${libraries.flexboxlayout}"
+    implementation "com.google.android.flexbox:flexbox:${libraries.flexboxlayout}"
     implementation "com.github.jruesga:floatingsearchview:${libraries.floatingsearchview}"
-    implementation ("com.caverock:androidsvg:${libraries.androidsvg}") {
+    implementation("com.caverock:androidsvg:${libraries.androidsvg}") {
         exclude group: 'org.jetbrains', module: 'annotations-java5'
     }
     implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:${libraries.keyboardvisibilityevent}"
-    implementation ("com.mikepenz:aboutlibraries:${libraries.aboutlibraries}@aar") { transitive = true }
+    implementation("com.mikepenz:aboutlibraries:${libraries.aboutlibraries}@aar") { transitive = true }
     implementation "com.mikepenz:aboutlibraries-definitions:${libraries.aboutlibraries_definitions}"
     implementation "me.saket:better-link-movement-method:${libraries.better_link_movement_method}"
 
@@ -92,14 +92,9 @@ android {
         }
     }
 
-    dexOptions {
-        jumboMode = true
-    }
-
     buildTypes {
         debug {
             debuggable true
-
             applicationIdSuffix ".debug"
 
             ext.enableCrashlytics = false
@@ -166,20 +161,21 @@ def addActivityAliases(manifest) {
         def name = it.name.toString().replaceAll(" ", "")
 
         activityAlias +=
-            "<activity-alias android:name=\".${name}ExternalUrlHandlerActivity\"\n" +
-            "    android:theme=\"@style/AppTheme.NoStatusBarColor\"\n" +
-            "    android:targetActivity=\"com.ruesga.rview.UrlHandlerProxyActivity\"\n" +
-            "    android:excludeFromRecents=\"true\"\n" +
-            "    android:taskAffinity=\"\"\n" +
-            "    android:enabled=\"false\">\n" +
-            "    <intent-filter>\n" +
-            "        <action android:name=\"android.intent.action.VIEW\" />\n" +
-            "        <category android:name=\"android.intent.category.DEFAULT\" />\n" +
-            "        <category android:name=\"android.intent.category.BROWSABLE\" />\n" +
-            "        <data android:scheme=\"http\" android:host=\"${host}\" android:pathPrefix=\"${path}\" />\n" +
-            "        <data android:scheme=\"https\" android:host=\"${host}\" android:pathPrefix=\"${path}\" />\n" +
-            "    </intent-filter>\n" +
-            "</activity-alias>\n\n"
+                "<activity-alias android:name=\".${name}ExternalUrlHandlerActivity\"\n" +
+                        "    android:theme=\"@style/AppTheme.NoStatusBarColor\"\n" +
+                        "    android:targetActivity=\"com.ruesga.rview.UrlHandlerProxyActivity\"\n" +
+                        "    android:excludeFromRecents=\"true\"\n" +
+                        "    android:taskAffinity=\"\"\n" +
+                        "    android:enabled=\"false\"\n" +
+                        "    android:exported=\"true\">\n" +
+                        "    <intent-filter>\n" +
+                        "        <action android:name=\"android.intent.action.VIEW\" />\n" +
+                        "        <category android:name=\"android.intent.category.DEFAULT\" />\n" +
+                        "        <category android:name=\"android.intent.category.BROWSABLE\" />\n" +
+                        "        <data android:scheme=\"http\" android:host=\"${host}\" android:pathPrefix=\"${path}\" />\n" +
+                        "        <data android:scheme=\"https\" android:host=\"${host}\" android:pathPrefix=\"${path}\" />\n" +
+                        "    </intent-filter>\n" +
+                        "</activity-alias>\n\n"
     }
 
     def text = manifest.text.replace("<!-- URL-ACTIVITY-HANDLERS -->", activityAlias.toString())
@@ -193,7 +189,7 @@ def registerAddActivityAliases(task, flavor, build) {
     def buildName = build.name.toString()
     def manifestFull = new File(
             (project.path + "/build/intermediates/merged_manifests/${flavorName}${buildName.capitalize()}/AndroidManifest.xml")
-            .replace(":", ""))
+                    .replace(":", ""))
 
     def addActivityAliasesTaskName = "addActivityAliases${flavorName.capitalize()}${buildName.capitalize()}"
     project.task(addActivityAliasesTaskName).doLast({

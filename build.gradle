@@ -41,13 +41,13 @@ ext {
         smoothprogressbar           : '1.1.0',
         glide                       : '4.11.0',
         prettytime                  : '4.0.5.Final',
-        flexboxlayout               : '2.0.1',
+        flexboxlayout               : '3.0.0',
         floatingsearchview          : '2d435bead5',
         androidsvg                  : '1.4',
         keyboardvisibilityevent     : '2.3.0',
         better_link_movement_method : '2.2.0',
-        aboutlibraries              : '8.1.2',
-        aboutlibraries_definitions  : '8.1.0'
+        aboutlibraries              : '8.9.4',
+        aboutlibraries_definitions  : '8.4.3'
     ]
 
     testLibraries = [
@@ -64,17 +64,17 @@ allprojects {
     buildscript {
         repositories {
             google()
-            jcenter()
+            mavenCentral()
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.6.3'
-            classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:1.0.2'
+            classpath 'com.android.tools.build:gradle:7.4.2'
+            classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:4.0.0'
         }
     }
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
     }
 
@@ -100,13 +100,11 @@ subprojects {
 
         if (project.plugins.hasPlugin('android') || project.plugins.hasPlugin('android-library')) {
             android {
-                compileSdkVersion 29
-                // https://developer.android.com/studio/releases/build-tools.html
-                buildToolsVersion '29.0.3'
+                compileSdkVersion 32
 
                 defaultConfig {
                     minSdkVersion 16
-                    targetSdkVersion 29
+                    targetSdkVersion 32
 
                     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
                 }
